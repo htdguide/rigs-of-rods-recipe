@@ -1,0 +1,36 @@
+# source/main/gui/GUIManager.h
+
+> Owns both GUI toolkits and every panel, and decides which panels draw in each application state.
+
+**Needs** — [Seam: Immediate-mode GUI](../../../SYSTEM-REQUIREMENTS.md#seam-immediate-mode-gui) · [`Application.h`](../Application.h.md) · [`system/CVar.h`](../system/CVar.h.md) · [`RTTLayer.h`](RTTLayer.h.md) · [`panels/GUI_CollisionsDebug.h`](panels/GUI_CollisionsDebug.h.md) · [`panels/GUI_ConsoleWindow.h`](panels/GUI_ConsoleWindow.h.md) · [`panels/GUI_FlexbodyDebug.h`](panels/GUI_FlexbodyDebug.h.md) · [`panels/GUI_FrictionSettings.h`](panels/GUI_FrictionSettings.h.md) · [`panels/GUI_RepositorySelector.h`](panels/GUI_RepositorySelector.h.md) · [`panels/GUI_GameMainMenu.h`](panels/GUI_GameMainMenu.h.md) · [`panels/GUI_GameAbout.h`](panels/GUI_GameAbout.h.md) · [`panels/GUI_GameChatBox.h`](panels/GUI_GameChatBox.h.md) · [`panels/GUI_GameSettings.h`](panels/GUI_GameSettings.h.md) · [`panels/GUI_LoadingWindow.h`](panels/GUI_LoadingWindow.h.md) · [`panels/GUI_MessageBox.h`](panels/GUI_MessageBox.h.md) · [`panels/GUI_MultiplayerSelector.h`](panels/GUI_MultiplayerSelector.h.md) · [`panels/GUI_MultiplayerClientList.h`](panels/GUI_MultiplayerClientList.h.md) · [`panels/GUI_MainSelector.h`](panels/GUI_MainSelector.h.md) · [`panels/GUI_NodeBeamUtils.h`](panels/GUI_NodeBeamUtils.h.md) · [`panels/GUI_DirectionArrow.h`](panels/GUI_DirectionArrow.h.md) · [`panels/GUI_VehicleInfoTPanel.h`](panels/GUI_VehicleInfoTPanel.h.md) · [`panels/GUI_SimPerfStats.h`](panels/GUI_SimPerfStats.h.md) · [`panels/GUI_SurveyMap.h`](panels/GUI_SurveyMap.h.md) · [`panels/GUI_TextureToolWindow.h`](panels/GUI_TextureToolWindow.h.md) · [`panels/GUI_GameControls.h`](panels/GUI_GameControls.h.md) · [`panels/GUI_TopMenubar.h`](panels/GUI_TopMenubar.h.md) · [Seam: Retained layout GUI](../../../SYSTEM-REQUIREMENTS.md#seam-retained-layout-gui)
+**Used by** — [`AppContext.cpp`](../AppContext.cpp.md) · [`Application.cpp`](../Application.cpp.md) · [`GameContext.cpp`](../GameContext.cpp.md) · [`gameplay/ChatSystem.cpp`](../gameplay/ChatSystem.cpp.md) · [`gameplay/Replay.cpp`](../gameplay/Replay.cpp.md) · [`gameplay/VehicleAI.cpp`](../gameplay/VehicleAI.cpp.md) · [`gfx/EnvironmentMap.cpp`](../gfx/EnvironmentMap.cpp.md) · [`gfx/GfxActor.cpp`](../gfx/GfxActor.cpp.md) · [`gfx/GfxScene.cpp`](../gfx/GfxScene.cpp.md) · [`gfx/camera/CameraManager.cpp`](../gfx/camera/CameraManager.cpp.md) · [`DashBoardManager.cpp`](DashBoardManager.cpp.md) · [`GUIManager.cpp`](GUIManager.cpp.md) · [`GUIUtils.h`](GUIUtils.h.md) · [`gui/panels/GUI_CollisionsDebug.cpp`](panels/GUI_CollisionsDebug.cpp.md) · [`gui/panels/GUI_ConsoleView.cpp`](panels/GUI_ConsoleView.cpp.md) · [`gui/panels/GUI_ConsoleWindow.cpp`](panels/GUI_ConsoleWindow.cpp.md) · [`gui/panels/GUI_DirectionArrow.cpp`](panels/GUI_DirectionArrow.cpp.md) · [`gui/panels/GUI_FlexbodyDebug.cpp`](panels/GUI_FlexbodyDebug.cpp.md) · [`gui/panels/GUI_FrictionSettings.cpp`](panels/GUI_FrictionSettings.cpp.md) · [`gui/panels/GUI_GameAbout.cpp`](panels/GUI_GameAbout.cpp.md) · [`gui/panels/GUI_GameChatBox.cpp`](panels/GUI_GameChatBox.cpp.md) · [`gui/panels/GUI_GameControls.cpp`](panels/GUI_GameControls.cpp.md) · [`gui/panels/GUI_GameMainMenu.cpp`](panels/GUI_GameMainMenu.cpp.md) · [`gui/panels/GUI_GameSettings.cpp`](panels/GUI_GameSettings.cpp.md) · [`gui/panels/GUI_LoadingWindow.cpp`](panels/GUI_LoadingWindow.cpp.md) · [`gui/panels/GUI_MainSelector.cpp`](panels/GUI_MainSelector.cpp.md) · [`gui/panels/GUI_MessageBox.cpp`](panels/GUI_MessageBox.cpp.md) · [`gui/panels/GUI_MultiplayerClientList.cpp`](panels/GUI_MultiplayerClientList.cpp.md) · [`gui/panels/GUI_MultiplayerSelector.cpp`](panels/GUI_MultiplayerSelector.cpp.md) · [`gui/panels/GUI_NodeBeamUtils.cpp`](panels/GUI_NodeBeamUtils.cpp.md) · [`gui/panels/GUI_RepositorySelector.cpp`](panels/GUI_RepositorySelector.cpp.md) · [`gui/panels/GUI_SimPerfStats.cpp`](panels/GUI_SimPerfStats.cpp.md) · [`gui/panels/GUI_SurveyMap.cpp`](panels/GUI_SurveyMap.cpp.md) · [`gui/panels/GUI_TextureToolWindow.cpp`](panels/GUI_TextureToolWindow.cpp.md) · [`gui/panels/GUI_TopMenubar.cpp`](panels/GUI_TopMenubar.cpp.md) · [`gui/panels/GUI_VehicleInfoTPanel.cpp`](panels/GUI_VehicleInfoTPanel.cpp.md) · [`main.cpp`](../main.cpp.md) · [`network/Network.cpp`](../network/Network.cpp.md) · [`physics/ActorManager.cpp`](../physics/ActorManager.cpp.md) · [`physics/ActorSpawner.cpp`](../physics/ActorSpawner.cpp.md) · [`physics/Savegame.cpp`](../physics/Savegame.cpp.md) · [`resources/CacheSystem.cpp`](../resources/CacheSystem.cpp.md) · [`scripting/GameScript.cpp`](../scripting/GameScript.cpp.md) · [`terrain/Terrain.cpp`](../terrain/Terrain.cpp.md) · [`terrain/TerrainGeometryManager.cpp`](../terrain/TerrainGeometryManager.cpp.md) · [`terrain/TerrainObjectManager.cpp`](../terrain/TerrainObjectManager.cpp.md)
+**Tier floor** — T2
+
+
+## Purpose
+
+The single home of the user interface. Panels are plain members, so their lifetime equals the application's and any subsystem can reach one directly (`App::GetGuiManager()->SurveyMap`). Most UI is immediate-mode; the retained toolkit is kept for dashboards (see [`DashBoardManager`](DashBoardManager.h.md)). Implementation: [`GUIManager.cpp`](GUIManager.cpp.md).
+
+## State
+
+```text
+RECORD GuiTheme — shared colours: in-progress (1, .83, 0), no-entries grey .7, error (1, .18, .18), selected (.9, .7, .05),
+  value red / value blue, highlight (.78, .39, 0), success (0, .8, 0), warning (.9, .8, .1), help (.5, .7, 1),
+  semi-transparent window bg (.1,.1,.1,.8), semi-transparent text bg (.1,.1,.1,.6), "too dark" threshold .2 for colour marks,
+  screen-edge padding 10×10, text-bg padding 4×2, tip panel bg (.3,.6,.45); default font
+ENUM MouseCursorVisibility: VISIBLE (auto-hides after idle), HIDDEN (reappears on move), SUPRESSED (until set VISIBLE)
+UiPreset table: settings cvar → value per preset (NOVICE, REGULAR, EXPERT, MINIMALLIST)
+  gfx_surveymap_icons: true, true, true, false
+  gfx_declutter_map:   false, true, false, true
+  ui_show_live_repair_controls: true, false, false, false
+RECORD GUIManager
+  panels: CollisionsDebug, GameMainMenu, GameAbout, GameSettings, VehicleInfoTPanel, SimPerfStats, MessageBoxDialog,
+          MultiplayerSelector, MainSelector, ChatBox, MpClientList, FrictionSettings, TextureToolWindow, GameControls,
+          RepositorySelector, NodeBeamUtils, LoadingWindow, TopMenubar, ConsoleWindow, SurveyMap, DirectionArrow, FlexbodyDebug
+  menu wallpaper overlay; retained GUI + its platform; immediate GUI backend; theme; RTT layer pool
+  keyboard capture: queued (this frame), requested (effective); last mouse-move timer; cursor suppressed
+```
+
+## API
+
+`ShowMessageBox(title, text, closable, button1, button2)` / `(config)`, `RequestGuiCaptureKeyboard`, `IsGuiCaptureKeyboardRequested`, `ApplyGuiCaptureKeyboard`, `AreStaticMenusAllowed`, `ApplyUiPreset`, `NewImGuiFrame(dt)`, `DrawMainMenuGui`, `DrawSimulationGui(dt)`, `DrawSimGuiBuffered(player gfx actor)`, `DrawCommonGui`, `SetGuiHidden`, `IsGuiHidden`, `SetSceneManagerForGuiRendering`, `ShutdownMyGUI`, `SetMouseCursorVisibility`, `UpdateMouseCursorVisibility`, `SupressCursor`, `SetUpMenuWallpaper`, `GetImGui`, `GetTheme`, `GetRttLayerManager`, `WakeUpGUI`, `UpdateInputEvents(dt)`.
